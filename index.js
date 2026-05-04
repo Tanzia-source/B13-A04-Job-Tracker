@@ -56,13 +56,23 @@ document.getElementById("jobs-container").addEventListener("click",function(even
         status.innerText = "Applied"
         const cloneCard = card.cloneNode(true);
         interviewContainer.appendChild(cloneCard);
+        updateStat();
     }}
     if(clickedElement.classList.contains("rejected")){{
         status.innerText = "Rejected"
         const cloneCard = card.cloneNode(true);
         rejectedContainer.appendChild(cloneCard);
+        updateStat();
     }}
     if(clickedElement.classList.contains("delete")){
         parent.removeChild(card);
+        updateStat()
     }
 })
+
+function updateStat(){
+    totalStat.innerText = allContainer.children.length
+    interviewStat.innerText = interviewContainer.children.length
+    rejectStat.innerText = rejectedContainer.children.length
+}
+updateStat()
