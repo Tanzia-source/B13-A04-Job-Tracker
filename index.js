@@ -1,19 +1,68 @@
 let currentTab = "all";
 const tabActive = ["bg-navy", "border-navy", "text-white"];
-const tabInactive = ["bg-transparent","text-slate-700","border-state-200","text-black"]
+const tabInactive = ["bg-transparent", "text-slate-700", "border-state-200", "text-black"]
 
-function switchTab(tab){
-    console.log(tab);
-    const tabs = ["all","interview","rejected"];
-    for (const t of tabs){
+const allContainer = document.getElementById("all-container");
+const interviewContainer = document.getElementById("interview-container");
+const rejectedContainer = document.getElementById("reject-container");
+
+console.log("allContainer", "interviewContainer", "rejectedContainer")
+
+function switchTab(tab) {
+    const tabs = ["all", "interview", "rejected"];
+    for (const t of tabs) {
         const tabName = document.getElementById("tab-" + t);
-        if (t === tab){
+        if (t === tab) {
             tabName.classList.remove(...tabInactive);
             tabName.classList.add(...tabActive);
         }
-        else{
+        else {
             tabName.classList.remove(...tabActive)
             tabName.classList.add(...tabInactive)
         }
     }
+    const pages = [allContainer, interviewContainer, rejectedContainer]
+    for(const section of pages){
+        section.classList.add("hidden");
+    }
+
+
+    if (tab === "all") {
+            allContainer.classList.remove("hidden");
+        }
+        else if (tab === "interview") {
+            interviewContainer.classList.remove("hidden")
+        } else {
+            rejectedContainer.classList.remove("hidden")
+        }
 }
+
+const totalStat = document.getElementById("stat-total");
+const interviewStat = document.getElementById("stat-interview");
+const rejectStat = document.getElementById("stat-reject")
+
+totalStat.innerText = allContainer.children.length;
+
+switchTab(currentTab);
+
+document.getElementById("jobs-container").addEventListener("click",function(event){
+    const clickedElement = event.target;
+    const card = clickedElement.closest(".card");
+    const parent = card.parentNode;
+    const status = card.querySelector(".status")
+    
+
+    if(clickedElement.classList.contains("interview")){{
+        status.innerText = "Applied"
+        const cloneCard = card.cloneNode(true);
+        interviewContainer.appendChild(cloneCard);
+    }}
+    if(clickedElement.classList.contains("rejected")){{
+        status.innerText = "Rejected"
+        const cloneCard = card.cloneNode(true);
+        rejectedContainer.appendChild(cloneCard);
+    }}
+    if(clickedElement.classList.contains("delete")){
+        parent.removeChild(card);
+    }
+})
